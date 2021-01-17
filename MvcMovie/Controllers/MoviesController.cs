@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using MvcMovie.Data;
 using MvcMovie.Models;
 
@@ -13,15 +15,21 @@ namespace MvcMovie.Controllers
     public class MoviesController : Controller
     {
         private readonly MvcMovieContext _context;
+        private readonly IStringLocalizer<MoviesController> _localizer;
 
-        public MoviesController(MvcMovieContext context)
+        public MoviesController(MvcMovieContext context, IStringLocalizer<MoviesController> localizer)
         {
             _context = context;
+            _localizer = localizer;
         }
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
+            ViewBag.msg = $"CurrentCulture : {CultureInfo.CurrentCulture.Name}<br />"
+                 + $"CurrentUICulture : {CultureInfo.CurrentUICulture.Name}<br />"
+                 + $"Hello : {_localizer["Hello"]}<br />";
+
             return View(await _context.Movie.ToListAsync());
         }
 
