@@ -28,7 +28,8 @@ namespace MvcMovie.Controllers
         {
             ViewBag.msg = $"CurrentCulture : {CultureInfo.CurrentCulture.Name}<br />"
                  + $"CurrentUICulture : {CultureInfo.CurrentUICulture.Name}<br />"
-                 + $"Hello : {_localizer["Hello"]}<br />";
+                 + $"Hello : {_localizer["Hello"]}<br />"
+                 + $"Today : {DateTime.Now}<br />";
 
             return View(await _context.Movie.ToListAsync());
         }
